@@ -21,7 +21,6 @@ public class Minesweeper {
         this.revealed = new boolean[rows][cols];
         this.flagged = new boolean[rows][cols];
         this.gameOver = false;
-
         // Call methods to initialize the board and place mines
         initializeBoard();
     }
@@ -31,13 +30,10 @@ public class Minesweeper {
     public void setGameOver(boolean status)
     {
         this.gameOver = status;
-
     }
     // Method to initialize the game board with empty values
     private void initializeBoard() {
         // TODO: Implement this method
-        // set all revealed to false
-
         placeMines();
         calculateNumbers();
     }
@@ -61,7 +57,6 @@ public class Minesweeper {
                 }
             }
         }
-
     }
 
     // Method to calculate numbers on the board for non-mine cells
@@ -78,18 +73,11 @@ public class Minesweeper {
                 for (int y = up; y <= down; y++){
                     for(int x = left; x <= right; x++){
                         if (y >= 0 && y < this.rows && x >= 0 && x < this.cols && !(y==i && x==j) && this.mines[y][x]){
-//                            if (x >= 0 && x < this.cols){
-//                                if(!(y==i && x==j)){
-//                                    if(this.mines[y][x]){
-                                        count += 1;
-//                                    }
-//                                }
-//                            }
+                            count += 1;
                         }
                     }
                 }
                 this.board[i][j] = count;
-
             }
         }
     }
@@ -114,14 +102,14 @@ public class Minesweeper {
                 }
             }
             // TODO: REMOVE THIS
-            line += "   ";
-            for (int j = 0; j < this.cols; j++) {
-                line += this.board[i][j] + " ";
-            }
-            line += "   ";
-            for (int j = 0; j < this.cols; j++) {
-                line += (this.mines[i][j]?"⚑":"-") + " ";
-            }
+//            line += "   ";
+//            for (int j = 0; j < this.cols; j++) {
+//                line += this.board[i][j] + " ";
+//            }
+//            line += "   ";
+//            for (int j = 0; j < this.cols; j++) {
+//                line += (this.mines[i][j]?"⚑":"-") + " ";
+//            }
             // Keep this
             System.out.println(line);
         }
@@ -134,19 +122,37 @@ public class Minesweeper {
     // Method to handle a player's move (reveal a cell or place a flag)
     public void playerMove(int row, int col, String action) {
         // TODO: Implement this method
-        this.revealCell(row,col);
+        if (action.equals("reveal")) {
+            this.revealCell(row, col);
+            return;
+        }
+        if (action.equals("flag")){
+            if (flagged[row][col]){
+                unflagCell(row,col);
+            }
+            else {
+                flagCell(row, col);
+            }
+        }
     }
 
     // Method to check if the player has won the game
     public boolean checkWin() {
         // TODO: Implement this method
-        return false;
+        for(int i = 0; i < this.rows; i++){
+            for(int j = 0; j < this.cols; j++){
+                if ((!this.revealed[i][j] && !this.mines[i][j])){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     // Method to check if the player has lost the game
     public boolean checkLoss(int row, int col) {
         // TODO: Implement this method
-        return false;
+        return this.mines[row][col];
     }
 
     // Method to reveal a cell (and adjacent cells if necessary)
@@ -180,7 +186,7 @@ public class Minesweeper {
 
     // Method to unflag a cell
     private void unflagCell(int row, int col) {
-        this.flagged[row][col] = false;
         // TODO: Implement this method
+        this.flagged[row][col] = false;
     }
 }
