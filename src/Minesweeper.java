@@ -139,14 +139,20 @@ public class Minesweeper {
     // Method to check if the player has won the game
     public boolean checkWin() {
         // TODO: Implement this method
+        boolean allMinesFlagged = true;
+        boolean allTilesRevealed = true;
         for(int i = 0; i < this.rows; i++){
             for(int j = 0; j < this.cols; j++){
-                if ((!this.revealed[i][j] && !this.mines[i][j])){
-                    return false;
+                // Check if tile is not revealed
+                if (!this.revealed[i][j] && !this.mines[i][j]){
+                    allTilesRevealed = false;
+                }
+                if (this.flagged[i][j] != this.mines[i][j]){
+                    allMinesFlagged = false;
                 }
             }
         }
-        return true;
+        return (allMinesFlagged || allTilesRevealed);
     }
 
     // Method to check if the player has lost the game

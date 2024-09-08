@@ -29,7 +29,7 @@ public class Main {
                 System.out.println("Congratulations! You've won the game.");
                 break;
             }
-            if (game.checkLoss(row, col)) {
+            if (action.equals("reveal") && game.checkLoss(row, col)) {
                 System.out.println("Game Over! You hit a mine.");
                 game.setGameOver(true);
             }
